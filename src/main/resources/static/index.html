@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HangoutApp - Event Invitations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container" id="home-view">
+        <header>
+            <h1>HangoutApp</h1>
+            <p>Create events and invite people</p>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('events', event)">Events</button>
+            <button class="tab-btn" onclick="showTab('create', event)">Create Event</button>
+        </div>
+
+        <div id="events-tab" class="tab-content active">
+            <h2>Upcoming Events</h2>
+            <div id="events-list"></div>
+        </div>
+
+        <div id="create-tab" class="tab-content">
+            <h2>Create New Event</h2>
+            <form id="create-event-form">
+                <div class="form-group">
+                    <label for="title">Event Title *</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="eventDate">Date & Time *</label>
+                    <input type="datetime-local" id="eventDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location *</label>
+                    <input type="text" id="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="organizerName">Your Name *</label>
+                    <input type="text" id="organizerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="organizerEmail">Your Email *</label>
+                    <input type="email" id="organizerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="carpoolMode">Carpool Mode *</label>
+                    <select id="carpoolMode" required>
+                        <option value="NONE">No Carpooling</option>
+                        <option value="MANUAL">Manual Sign-up (People offer rides)</option>
+                        <option value="AUTO">Auto-Assign (Automatic carpooling)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Event</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="event-view" style="display: none;">
+        <div class="back-button">
+            <button class="btn" onclick="goHome()">← Back to Events</button>
+        </div>
+        <div id="event-details"></div>
+        <div id="rsvp-form-container"></div>
+        <div id="rsvps-list"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
