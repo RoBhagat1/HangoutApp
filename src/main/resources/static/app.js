@@ -1,4 +1,136 @@
-const API_URL = 'http://localhost:8080/api';
+// Detect environment
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8081/api'
+    : '/api';
+
+// Authentication state
+let currentUser = null;
+
+// Check auth on page load
+window.addEventListener('DOMContentLoaded', async () => {
+    await checkAuth();
+});
+
+async function checkAuth() {
+    try {
+        const response = await fetch(`${API_URL}/auth/me`, {
+            credentials: 'include'
+        });
+        if (response.ok) {
+            currentUser = await response.json();
+            updateUIForAuthState(true);
+        } else {
+            currentUser = null;
+            updateUIForAuthState(false);
+        }
+    } catch (error) {
+        console.error('Auth check failed:', error);
+        currentUser = null;
+        updateUIForAuthState(false);
+    }
+}
+
+function updateUIForAuthState(isLoggedIn) {
+    const createBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
+        btn => btn.textContent.toLowerCase().includes('create')
+    );
+
+    if (isLoggedIn) {
+        document.getElementById('logged-in-state').style.display = 'flex';
+        document.getElementById('logged-out-state').style.display = 'none';
+        document.getElementById('user-display').textContent = `Hello, ${currentUser.name}!`;
+        if (createBtn) createBtn.disabled = false;
+    } else {
+        document.getElementById('logged-in-state').style.display = 'none';
+        document.getElementById('logged-out-state').style.display = 'flex';
+        if (createBtn) createBtn.disabled = true;
+    }
+}
+
+// Auth modal functions
+function showAuthModal(mode) {
+    document.getElementById('auth-modal').style.display = 'block';
+    if (mode === 'login') {
+        showLogin();
+    } else {
+        showRegister();
+    }
+}
+
+function closeAuthModal() {
+    document.getElementById('auth-modal').style.display = 'none';
+}
+
+function showLogin() {
+    document.getElementById('login-view').style.display = 'block';
+    document.getElementById('register-view').style.display = 'none';
+}
+
+function showRegister() {
+    document.getElementById('login-view').style.display = 'none';
+    document.getElementById('register-view').style.display = 'block';
+}
+
+// Login function
+async function login(email, password) {
+    try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({email, password})
+        });
+
+        if (response.ok) {
+            await checkAuth();
+            closeAuthModal();
+            alert('Login successful!');
+        } else {
+            const error = await response.json();
+            alert(error.error || 'Login failed');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('Login failed');
+    }
+}
+
+// Register function
+async function register(name, email, password) {
+    try {
+        const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({name, email, password})
+        });
+
+        if (response.ok) {
+            alert('Registration successful! Please login.');
+            showLogin();
+        } else {
+            const error = await response.json();
+            alert(error.error || 'Registration failed');
+        }
+    } catch (error) {
+        console.error('Registration error:', error);
+        alert('Registration failed');
+    }
+}
+
+// Logout function
+async function logout() {
+    try {
+        await fetch(`${API_URL}/auth/logout`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+        currentUser = null;
+        updateUIForAuthState(false);
+        showTab('events');
+    } catch (error) {
+        console.error('Logout error:', error);
+    }
+}
 
 function showTab(tabName, event) {
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -331,13 +463,17 @@ async function submitRsvp(event, eventId) {
 document.getElementById('create-event-form').addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    if (!currentUser) {
+        alert('Please login to create events');
+        showAuthModal('login');
+        return;
+    }
+
     const eventData = {
         title: document.getElementById('title').value,
         description: document.getElementById('description').value,
         eventDate: document.getElementById('eventDate').value,
         location: document.getElementById('location').value,
-        organizerName: document.getElementById('organizerName').value,
-        organizerEmail: document.getElementById('organizerEmail').value,
         carpoolMode: document.getElementById('carpoolMode').value
     };
 
@@ -347,6 +483,7 @@ document.getElementById('create-event-form').addEventListener('submit', async (e
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify(eventData)
         });
 
@@ -355,7 +492,7 @@ document.getElementById('create-event-form').addEventListener('submit', async (e
             document.getElementById('create-event-form').reset();
             showEventDetails(event.id);
         } else {
-            alert('Error creating event');
+            alert('Error creating event. Please make sure you are logged in.');
         }
     } catch (error) {
         console.error('Error creating event:', error);
@@ -509,6 +646,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (eventDateInput) {
         roundToNearest15(eventDateInput);
     }
+});
+
+// Form handlers
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    await login(email, password);
+});
+
+document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    await register(name, email, password);
 });
 
 loadEvents();

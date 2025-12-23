@@ -8,5 +8,7 @@ RUN ./gradlew clean bootJar -x test --no-daemon
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/build/libs/*.jar app.jar
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 EXPOSE 8080
-CMD java -Dserver.port=${PORT:-8080} -jar app.jar
+ENTRYPOINT ["/app/start.sh"]

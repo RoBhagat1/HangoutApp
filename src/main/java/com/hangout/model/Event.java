@@ -1,5 +1,6 @@
 package com.hangout.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,10 +25,15 @@ public class Event {
     @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "organizer_id")
+    @JsonIgnore
+    private User organizer;
+
+    @Column
     private String organizerName;
 
-    @Column(nullable = false)
+    @Column
     private String organizerEmail;
 
     @Column(nullable = false)
@@ -126,5 +132,13 @@ public class Event {
 
     public void setCarpoolMode(CarpoolMode carpoolMode) {
         this.carpoolMode = carpoolMode;
+    }
+
+    public User getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
     }
 }

@@ -46,7 +46,7 @@ A web application for creating events and managing RSVPs. People can view events
    ```
 
 4. **Access the application:**
-   - Open your browser and go to: `http://localhost:8080`
+   - Open your browser and go to: `http://localhost:8081`
    - The frontend UI will load automatically
 
 **Note:** The first time you run `./gradlew`, it will automatically download Gradle. This may take a minute.
@@ -70,7 +70,7 @@ A web application for creating events and managing RSVPs. People can view events
 ### Example: Create Event
 
 ```bash
-curl -X POST http://localhost:8080/api/events \
+curl -X POST http://localhost:8081/api/events \
   -H "Content-Type: application/json" \
   -d '{
     "title": "Summer BBQ",
@@ -85,7 +85,7 @@ curl -X POST http://localhost:8080/api/events \
 ### Example: Submit RSVP
 
 ```bash
-curl -X POST http://localhost:8080/api/rsvps \
+curl -X POST http://localhost:8081/api/rsvps \
   -H "Content-Type: application/json" \
   -d '{
     "eventId": 1,
@@ -101,7 +101,7 @@ curl -X POST http://localhost:8080/api/rsvps \
 The application uses H2 in-memory database. Data is reset when the application restarts.
 
 To access the H2 console (for debugging):
-- URL: `http://localhost:8080/h2-console`
+- URL: `http://localhost:8081/h2-console`
 - JDBC URL: `jdbc:h2:mem:hangoutdb`
 - Username: `sa`
 - Password: (leave blank)
