@@ -2,7 +2,6 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "java -Dserver.port=$PORT -jar /app/build/libs/HangoutApp-1.0.0.jar"
 healthcheckPath = "/api/events"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
