@@ -6,7 +6,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4a4a4a 0%, #000000 100%);
     min-height: 100vh;
     padding: 20px;
 }
@@ -21,7 +21,7 @@ body {
 }
 
 header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4a4a4a 0%, #000000 100%);
     color: white;
     padding: 40px;
     text-align: center;
@@ -39,7 +39,7 @@ header p {
 
 .tabs {
     display: flex;
-    background: #f5f5f5;
+    background: #2a2a2a;
     border-bottom: 2px solid #e0e0e0;
 }
 
@@ -59,7 +59,7 @@ header p {
 
 .tab-btn.active {
     background: white;
-    border-bottom: 3px solid #667eea;
+    border-bottom: 3px solid #4a4a4a;
     font-weight: bold;
 }
 
@@ -103,7 +103,7 @@ header p {
 .form-group textarea:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #4a4a4a;
 }
 
 .btn {
@@ -116,14 +116,14 @@ header p {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4a4a4a 0%, #000000 100%);
     color: white;
     font-weight: bold;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(74, 74, 74, 0.4);
 }
 
 .btn-success {
@@ -148,7 +148,7 @@ header p {
     margin-bottom: 15px;
     cursor: pointer;
     transition: all 0.3s;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #4a4a4a;
 }
 
 .event-card:hover {
@@ -251,7 +251,7 @@ header p {
 .stat-value {
     font-size: 2em;
     font-weight: bold;
-    color: #667eea;
+    color: #4a4a4a;
 }
 
 .stat-label {
@@ -320,7 +320,7 @@ header p {
 }
 
 #event-view header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #4a4a4a 0%, #000000 100%);
     color: white;
     padding: 30px;
     border-radius: 8px;
@@ -377,7 +377,7 @@ header p {
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 15px;
-    border-left: 4px solid #667eea;
+    border-left: 4px solid #4a4a4a;
 }
 
 .driver-header {
@@ -393,7 +393,7 @@ header p {
 }
 
 .departure-time {
-    color: #667eea;
+    color: #4a4a4a;
     font-weight: bold;
     font-size: 0.9em;
 }

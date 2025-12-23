@@ -140,7 +140,7 @@ async function showEventDetails(eventId) {
             </div>
             <div class="form-group">
                 <label for="arrivalTime">Your Arrival Time *</label>
-                <input type="datetime-local" id="arrivalTime" required>
+                <input type="datetime-local" id="arrivalTime" step="900" required>
             </div>
         ` : '';
 
@@ -180,7 +180,7 @@ async function showEventDetails(eventId) {
                         </div>
                         <div class="form-group">
                             <label for="departureTime">Departure Time *</label>
-                            <input type="datetime-local" id="departureTime" required>
+                            <input type="datetime-local" id="departureTime" step="900" required>
                         </div>
                         <div class="form-group">
                             <label for="capacity">Available Seats *</label>
@@ -249,6 +249,17 @@ async function showEventDetails(eventId) {
                 `).join('')
             }
         `;
+
+        // Apply 15-minute rounding to dynamically created datetime inputs
+        const arrivalTimeInput = document.getElementById('arrivalTime');
+        if (arrivalTimeInput) {
+            roundToNearest15(arrivalTimeInput);
+        }
+
+        const departureTimeInput = document.getElementById('departureTime');
+        if (departureTimeInput) {
+            roundToNearest15(departureTimeInput);
+        }
 
         window.scrollTo(0, 0);
     } catch (error) {
@@ -469,6 +480,36 @@ async function leaveCar(driverId, eventId) {
         alert('Error leaving car');
     }
 }
+
+// Round datetime to nearest 15 minutes
+function roundToNearest15(dateTimeInput) {
+    dateTimeInput.addEventListener('blur', function() {
+        if (!this.value) return;
+
+        const date = new Date(this.value);
+        const minutes = date.getMinutes();
+        const roundedMinutes = Math.round(minutes / 15) * 15;
+        date.setMinutes(roundedMinutes);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const mins = String(date.getMinutes()).padStart(2, '0');
+
+        this.value = `${year}-${month}-${day}T${hours}:${mins}`;
+    });
+}
+
+// Apply to event date input on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const eventDateInput = document.getElementById('eventDate');
+    if (eventDateInput) {
+        roundToNearest15(eventDateInput);
+    }
+});
 
 loadEvents();
 checkForSharedEvent();
