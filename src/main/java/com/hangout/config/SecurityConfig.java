@@ -29,8 +29,9 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
                 .requestMatchers("/", "/index.html", "/*.css", "/*.js", "/h2-console/**").permitAll()
+                .requestMatchers("/api/health").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/events/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/events/**").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/rsvps/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/drivers/**").permitAll()
 
