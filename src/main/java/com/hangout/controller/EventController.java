@@ -26,13 +26,29 @@ public class EventController {
     private UserRepository userRepository;
 
     @GetMapping
-    public List<Event> getAllEvents() {
-        return eventRepository.findAll();
+    public List<Event> getAllEvents(Principal principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Must be logged in to view events");
+        }
+
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        return eventRepository.findEventsByUserOrRsvp(user, user.getEmail());
     }
 
     @GetMapping("/upcoming")
-    public List<Event> getUpcomingEvents() {
-        return eventRepository.findByEventDateAfterOrderByEventDateAsc(LocalDateTime.now());
+    public List<Event> getUpcomingEvents(Principal principal) {
+        if (principal == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    "Must be logged in to view events");
+        }
+
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+
+        return eventRepository.findUpcomingEventsByUserOrRsvp(user, user.getEmail(), LocalDateTime.now());
     }
 
     @GetMapping("/{id}")
