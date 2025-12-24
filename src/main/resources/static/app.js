@@ -1,6 +1,6 @@
 // Detect environment
 const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:8081/api'
+    ? 'http://localhost:8080/api'
     : '/api';
 
 // Authentication state
