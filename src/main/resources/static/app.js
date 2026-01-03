@@ -205,6 +205,7 @@ async function showEventDetails(eventId) {
 
         const yesCount = rsvps.filter(r => r.status === 'YES').length;
         const noCount = rsvps.filter(r => r.status === 'NO').length;
+        const maybeCount = rsvps.filter(r => r.status === 'MAYBE').length;
 
         const shareUrl = `${window.location.origin}/?event=${event.id}`;
 
@@ -244,6 +245,10 @@ async function showEventDetails(eventId) {
                 <div class="stat">
                     <div class="stat-value">${yesCount}</div>
                     <div class="stat-label">Attending</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">${maybeCount}</div>
+                    <div class="stat-label">Maybe</div>
                 </div>
                 <div class="stat">
                     <div class="stat-value">${noCount}</div>
@@ -294,6 +299,7 @@ async function showEventDetails(eventId) {
                 </div>
                 <div style="display: flex; gap: 10px;">
                     <button type="submit" class="btn btn-success" onclick="setRsvpStatus('YES')">I'll be there!</button>
+                    <button type="submit" class="btn btn-warning" onclick="setRsvpStatus('MAYBE')" style="background-color: #ffc107; color: #000;">Maybe</button>
                     <button type="submit" class="btn btn-danger" onclick="setRsvpStatus('NO')">Can't make it</button>
                 </div>
             </form>
@@ -372,7 +378,7 @@ async function showEventDetails(eventId) {
             ${rsvps.length === 0 ? '<p class="empty-state">No responses yet</p>' :
                 rsvps.map(rsvp => `
                     <div class="rsvp-item ${rsvp.status.toLowerCase()}">
-                        <h4>${rsvp.guestName} - ${rsvp.status === 'YES' ? 'Attending' : 'Not Attending'}</h4>
+                        <h4>${rsvp.guestName} - ${rsvp.status === 'YES' ? 'Attending' : rsvp.status === 'MAYBE' ? 'Maybe' : 'Not Attending'}</h4>
                         ${rsvp.message ? `<p>${rsvp.message}</p>` : ''}
                         <p style="font-size: 0.8em; margin-top: 5px;">
                             Responded: ${new Date(rsvp.respondedAt).toLocaleString()}

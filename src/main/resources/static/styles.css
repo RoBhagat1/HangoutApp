@@ -224,6 +224,10 @@ header p {
     border-left-color: #dc3545;
 }
 
+.rsvp-item.maybe {
+    border-left-color: #ffc107;
+}
+
 .rsvp-item h4 {
     margin-bottom: 5px;
     color: #333;

@@ -46,7 +46,7 @@ public class Rsvp {
     private LocalDateTime respondedAt;
 
     public enum RsvpStatus {
-        YES, NO
+        YES, NO, MAYBE
     }
 
     public Rsvp() {
