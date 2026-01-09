@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Create Event Button (Top Left) -->
+    <div id="create-event-button-container" style="display: none;">
+        <button onclick="showTab('create', event)" class="btn btn-create">+ Create Event</button>
+    </div>
+
     <div class="container" id="home-view">
         <header>
             <h1>HangoutApp</h1>
@@ -34,6 +39,9 @@
         </div>
 
         <div id="create-tab" class="tab-content">
+            <div class="back-button">
+                <button class="btn" onclick="showTab('events', event)">← Back to Events</button>
+            </div>
             <h2>Create New Event</h2>
             <form id="create-event-form">
                 <div class="form-group">

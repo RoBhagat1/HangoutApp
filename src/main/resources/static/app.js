@@ -34,16 +34,19 @@ function updateUIForAuthState(isLoggedIn) {
     const createBtn = Array.from(document.querySelectorAll('.tab-btn')).find(
         btn => btn.textContent.toLowerCase().includes('create')
     );
+    const createEventBtn = document.getElementById('create-event-button-container');
 
     if (isLoggedIn) {
         document.getElementById('logged-in-state').style.display = 'flex';
         document.getElementById('logged-out-state').style.display = 'none';
         document.getElementById('user-display').textContent = `Hello, ${currentUser.name}!`;
         if (createBtn) createBtn.disabled = false;
+        if (createEventBtn) createEventBtn.style.display = 'block';
     } else {
         document.getElementById('logged-in-state').style.display = 'none';
         document.getElementById('logged-out-state').style.display = 'flex';
         if (createBtn) createBtn.disabled = true;
+        if (createEventBtn) createEventBtn.style.display = 'none';
     }
 }
 
@@ -164,7 +167,12 @@ async function loadEvents() {
         const eventsList = document.getElementById('events-list');
 
         if (events.length === 0) {
-            eventsList.innerHTML = '<div class="empty-state">No events yet. Create your first event!</div>';
+            eventsList.innerHTML = `
+                <div class="empty-state">
+                    <p>No events yet.</p>
+                    <button onclick="showTab('create', event)" class="btn btn-primary" style="margin-top: 20px;">Create an Event</button>
+                </div>
+            `;
             return;
         }
 
@@ -408,6 +416,13 @@ async function showEventDetails(eventId) {
 function goHome() {
     document.getElementById('event-view').style.display = 'none';
     document.getElementById('home-view').style.display = 'block';
+
+    // Make sure events tab is active
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    document.getElementById('events-tab').classList.add('active');
+
     window.history.pushState({}, '', '/');
     loadEvents();
 }
