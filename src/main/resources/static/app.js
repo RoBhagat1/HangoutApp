@@ -421,8 +421,8 @@ function goHome() {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
-    // test
     document.getElementById('events-tab').classList.add('active');
+
     window.history.pushState({}, '', '/');
     loadEvents();
 }
@@ -542,6 +542,44 @@ function copyShareLink() {
         btn.textContent = originalText;
     }, 2000);
 }
+
+// Form validation for button styling
+function validateForm(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    const button = form.querySelector('button[type="submit"]');
+    const inputs = form.querySelectorAll('input[required], textarea[required], select[required]');
+
+    function checkFormValidity() {
+        let allFilled = true;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                allFilled = false;
+            }
+        });
+
+        if (allFilled) {
+            button.classList.add('form-filled');
+        } else {
+            button.classList.remove('form-filled');
+        }
+    }
+
+    inputs.forEach(input => {
+        input.addEventListener('input', checkFormValidity);
+        input.addEventListener('change', checkFormValidity);
+    });
+
+    checkFormValidity();
+}
+
+// Initialize form validation for all forms
+document.addEventListener('DOMContentLoaded', () => {
+    validateForm('login-form');
+    validateForm('register-form');
+    validateForm('create-event-form');
+});
 
 function checkForSharedEvent() {
     const urlParams = new URLSearchParams(window.location.search);

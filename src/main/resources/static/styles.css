@@ -241,6 +241,16 @@ header p {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.btn-primary.form-filled {
+    background: #3B82F6;
+}
+
+.btn-primary.form-filled:hover {
+    background: #2563EB;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
 .btn-success {
     background: #10B981;
     color: white;
@@ -648,6 +658,13 @@ header p {
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+#logged-out-state button:nth-child(2):hover {
+    background: #3B82F6;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 #user-display {
