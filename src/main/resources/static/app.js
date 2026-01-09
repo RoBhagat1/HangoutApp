@@ -421,8 +421,8 @@ function goHome() {
     document.querySelectorAll('.tab-content').forEach(tab => {
         tab.classList.remove('active');
     });
+    // test
     document.getElementById('events-tab').classList.add('active');
-
     window.history.pushState({}, '', '/');
     loadEvents();
 }
